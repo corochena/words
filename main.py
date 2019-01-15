@@ -1,6 +1,7 @@
 from collections import Counter
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def read_book(title_path):
     with open(title_path, "r", encoding="utf8") as current_file:
@@ -81,3 +82,11 @@ for lang in os.listdir(book_dir):
 stats
 stats.head()
 stats.tail()
+
+# lets plot unique words vs total length
+plt.plot(stats.length, stats.unique, "bo")
+# now using a loglog
+plt.loglog(stats.length, stats.unique, "bo")
+
+#lets stratify by language
+stats[stats.language == "English"]
