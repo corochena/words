@@ -1,4 +1,5 @@
 from collections import Counter
+import os
 
 def read_book(title_path):
     with open(title_path, "r", encoding="utf8") as current_file:
@@ -59,3 +60,13 @@ text = read_book(".Books/German/shakespeare/Romeo und Julia.txt")
 word_counts = count_words(text)
 (num_unique, counts) = word_stats(word_counts)
 print(num_unique, sum(counts))
+
+# reading multiple files
+book_dir = "./Books"
+for lang in os.listdir(book_dir):
+    for author in os.listdir(book_dir + "/" + lang):
+        for title in os.listdir(book_dir + "/" + lang + "/" + author):
+            input_file = book_dir + "/" + lang + "/" + author + "/" + title
+            print(input_file)
+            text = read_book(input_file)
+            (num_unique, counts) = word_stats(count_words_fast(text))
