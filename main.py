@@ -1,5 +1,6 @@
 from collections import Counter
 import os
+import pandas as pd
 
 def read_book(title_path):
     with open(title_path, "r", encoding="utf8") as current_file:
@@ -61,7 +62,10 @@ word_counts = count_words(text)
 (num_unique, counts) = word_stats(word_counts)
 print(num_unique, sum(counts))
 
-# reading multiple files
+# reading multiple files and storing info in a pandas DataFrame
+stats = pd.DataFrame(columns = ("language","author","title","length","unique"))
+title_num = 1
+
 book_dir = "./Books"
 for lang in os.listdir(book_dir):
     for author in os.listdir(book_dir + "/" + lang):
@@ -70,3 +74,10 @@ for lang in os.listdir(book_dir):
             print(input_file)
             text = read_book(input_file)
             (num_unique, counts) = word_stats(count_words_fast(text))
+            stats.loc[title_num] = lang, author.capitalize(), title.replace(".txt", ""), sum(counts), num_unique
+            title_num += 1
+
+# shows all table, head or tail
+stats
+stats.head()
+stats.tail()
